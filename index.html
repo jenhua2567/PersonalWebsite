@@ -261,6 +261,14 @@ footer {
   .link-linkedin, .link-email { width: 100%; justify-content: center; }
   footer { padding: 20px 24px; flex-direction: column; gap: 6px; text-align: center; }
   .deco-letter { font-size: 60vw; }
+  .constellation-section { height: 460px; }
+  .c-label { left: 24px; }
+  .bubble-label { display: none; }
+  .center-headshot { width: 100px; height: 100px; }
+  .center-headshot-monogram { font-size: 22px; }
+  .pmm-bubble { width: 54px; height: 54px; }
+  .bubble-svg { width: 18px; height: 18px; }
+  .skill-pill { font-size: 11px; padding: 5px 12px; }
 }
 </style>
 </head>
@@ -394,7 +402,7 @@ footer {
     'Creativity', 'Precision', 'Energy', 'Grit', 'Openness',
   ];
 
-  let W, H, cx, cy, pills = [], lastTs = null;
+  let W, H, cx, cy, bubbleR = 220, pills = [], lastTs = null;
 
   function resize() {
     W = section.offsetWidth;
@@ -403,6 +411,7 @@ footer {
     canvas.height = H;
     cx = W * 0.38;
     cy = H * 0.57;
+    bubbleR = Math.min(220, Math.round(W * 0.28));
     cnode.style.left = cx + 'px';
     cnode.style.top  = cy + 'px';
     renderBubbles();
@@ -412,7 +421,7 @@ footer {
 
   function renderBubbles() {
     bubWrap.innerHTML = '';
-    const r = 220;
+    const r = bubbleR;
     fns.forEach((fn, i) => {
       const rad = fn.angle * Math.PI / 180;
       const bx  = cx + r * Math.cos(rad);
@@ -451,7 +460,7 @@ footer {
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = 'rgba(107,30,46,0.12)';
     ctx.lineWidth   = 0.8;
-    const r = 220;
+    const r = bubbleR;
     fns.forEach(fn => {
       const rad = fn.angle * Math.PI / 180;
       ctx.beginPath();
