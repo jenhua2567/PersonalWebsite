@@ -358,6 +358,12 @@ footer {
   .deco-letter { font-size: 60vw; }
   .constellation-section { height: 380px; }
   .c-label { left: 24px; top: 20px; }
+  .bubble-label { display: none; }
+  .center-headshot { width: 100px; height: 100px; }
+  .center-headshot-monogram { font-size: 22px; }
+  .pmm-bubble { width: 54px; height: 54px; }
+  .bubble-svg { width: 18px; height: 18px; }
+  .skill-pill { font-size: 11px; padding: 5px 12px; }
   .skills-noscript { padding: 24px; }
 }
 
@@ -532,7 +538,7 @@ setTimeout(function () {
     'Creativity', 'Precision', 'Energy', 'Grit', 'Openness',
   ];
 
-  var W, H, cx, cy, pills = [], lastTs = null;
+  var W, H, cx, cy, bubbleR = 220, pills = [], lastTs = null;
 
   function resize() {
     W = section.offsetWidth;
@@ -541,6 +547,7 @@ setTimeout(function () {
     canvas.height = H;
     cx = W * 0.38;
     cy = H * 0.57;
+    bubbleR = Math.min(220, Math.round(W * 0.28));
     cnode.style.left = cx + 'px';
     cnode.style.top  = cy + 'px';
     renderBubbles();
@@ -550,8 +557,7 @@ setTimeout(function () {
 
   function renderBubbles() {
     bubWrap.innerHTML = '';
-    /* radius scales proportionally so left-arc bubbles stay on screen */
-    var r = Math.min(220, cx - 40);
+    var r = bubbleR;
     fns.forEach(function (fn, i) {
       var rad = fn.angle * Math.PI / 180;
       var bx  = cx + r * Math.cos(rad);
@@ -593,7 +599,7 @@ setTimeout(function () {
     ctx.clearRect(0, 0, W, H);
     ctx.strokeStyle = 'oklch(31% 0.180 16 / 0.12)';
     ctx.lineWidth   = 0.8;
-    var r = Math.min(220, cx - 40);
+    var r = bubbleR;
     fns.forEach(function (fn) {
       var rad = fn.angle * Math.PI / 180;
       ctx.beginPath();
