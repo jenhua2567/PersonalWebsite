@@ -1,153 +1,426 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Jenny Hua</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <style>
-    *, *::before, *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      font-family: 'Open Sans', sans-serif;
-      background-color: #ffffff;
-      color: #800000;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      transition: background 0.1s ease;
-    }
-
-    .container {
-      text-align: center;
-      padding: 2rem;
-      max-width: 680px;
-    }
-
-    .divider {
-      width: 60px;
-      height: 2px;
-      background-color: #800000;
-      margin: 1.5rem auto;
-    }
-
-    h1 {
-      font-size: 3rem;
-      font-weight: 700;
-      letter-spacing: 0.04em;
-      text-transform: uppercase;
-      color: #800000;
-    }
-
-    .title {
-      font-size: 1rem;
-      font-weight: 400;
-      letter-spacing: 0.2em;
-      text-transform: uppercase;
-      color: #800000;
-      opacity: 0.75;
-    }
-
-    .message {
-      font-size: 1.05rem;
-      font-weight: 300;
-      color: #5a0000;
-      line-height: 1.8;
-      margin-top: 1.5rem;
-    }
-
-    .badge {
-      display: inline-block;
-      margin-top: 2.5rem;
-      padding: 0.5rem 1.4rem;
-      border: 1px solid #800000;
-      font-size: 0.7rem;
-      font-weight: 600;
-      letter-spacing: 0.25em;
-      text-transform: uppercase;
-      color: #800000;
-    }
-
-    .about {
-      margin-top: 2rem;
-      font-size: 0.95rem;
-      font-weight: 300;
-      color: #5a0000;
-      line-height: 1.9;
-      text-align: left;
-      border-top: 1px solid rgba(128, 0, 0, 0.15);
-      padding-top: 2rem;
-    }
-
-    .linkedin-link {
-      display: inline-block;
-      margin-top: 1.2rem;
-      color: #800000;
-      text-decoration: none;
-      opacity: 0.7;
-      transition: opacity 0.2s ease;
-      line-height: 0;
-    }
-
-    .linkedin-link:hover {
-      opacity: 1;
-    }
-
-    .linkedin-link svg {
-      width: 28px;
-      height: 28px;
-    }
-
-    footer {
-      position: fixed;
-      bottom: 1.5rem;
-      font-size: 0.7rem;
-      letter-spacing: 0.15em;
-      text-transform: uppercase;
-      color: #800000;
-      opacity: 0.4;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jenny Hua · PMM Portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@400;500&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --white:       #FDFCF9;
+  --off:         #F5F2ED;
+  --maroon:      #6B1E2E;
+  --maroon-mid:  #8B2A3D;
+  --maroon-pale: #F7EAEC;
+  --maroon-soft: #E8C8CE;
+  --maroon-deep: #4A1220;
+  --ink:         #1C1612;
+  --ink-muted:   #6B6258;
+  --ink-faint:   #A89E96;
+  --border:      rgba(107,30,46,0.11);
+  --border-mid:  rgba(107,30,46,0.2);
+  --warm-gray:   #EDE9E3;
+}
+html { scroll-behavior: smooth; }
+body { font-family: 'Jost', sans-serif; background: var(--white); color: var(--ink); line-height: 1.6; }
+/* NAV */
+nav {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 22px 56px; border-bottom: 0.5px solid var(--border);
+  background: var(--white); position: sticky; top: 0; z-index: 100;
+}
+.nav-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; font-weight: 400; letter-spacing: 0.02em; }
+.nav-logo em { font-style: italic; color: var(--maroon); }
+.nav-links { display: flex; gap: 36px; font-size: 13px; font-weight: 300; letter-spacing: 0.05em; color: var(--ink-muted); }
+.nav-links a { text-decoration: none; color: inherit; transition: color .2s; }
+.nav-links a:hover { color: var(--maroon); }
+.nav-cta {
+  font-size: 11px; font-family: 'DM Mono', monospace;
+  border: 0.5px solid var(--maroon-mid); border-radius: 3px;
+  padding: 8px 18px; color: var(--maroon); cursor: pointer;
+  background: transparent; transition: background .2s, color .2s;
+  text-decoration: none; letter-spacing: 0.04em;
+}
+.nav-cta:hover { background: var(--maroon); color: var(--white); }
+/* HERO */
+.hero {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 56px;
+  padding: 80px 56px 72px; border-bottom: 0.5px solid var(--border); align-items: center;
+}
+.hero-eyebrow { font-family: 'DM Mono', monospace; font-size: 10px; letter-spacing: 0.12em; color: var(--maroon-mid); text-transform: uppercase; margin-bottom: 22px; }
+.hero-headline { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; line-height: 1.08; letter-spacing: -0.01em; margin-bottom: 24px; }
+.hero-headline em { font-style: italic; color: var(--maroon); }
+.hero-sub { font-size: 15px; font-weight: 300; color: var(--ink-muted); line-height: 1.75; max-width: 400px; }
+.snapshot-card { background: var(--maroon-deep); border-radius: 16px; padding: 36px; color: var(--white); }
+.snapshot-label { font-family: 'DM Mono', monospace; font-size: 10px; color: rgba(255,255,255,.4); letter-spacing: .1em; text-transform: uppercase; margin-bottom: 28px; }
+.stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; }
+.stat-num { font-family: 'Cormorant Garamond', serif; font-size: 38px; font-weight: 300; line-height: 1; margin-bottom: 4px; }
+.stat-desc { font-size: 12px; font-weight: 300; color: rgba(255,255,255,.5); margin-bottom: 10px; }
+.stat-bar { height: 1.5px; background: rgba(255,255,255,.15); border-radius: 2px; overflow: hidden; }
+.stat-bar-fill { height: 100%; background: var(--maroon-soft); border-radius: 2px; }
+/* CONSTELLATION */
+.constellation-section {
+  width: 100%; height: 600px; position: relative;
+  border-bottom: 0.5px solid var(--border); overflow: hidden; background: var(--off);
+}
+.c-label {
+  position: absolute; top: 30px; left: 56px;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; z-index: 10;
+}
+#ccanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
+.center-headshot {
+  position: absolute; width: 148px; height: 148px; border-radius: 50%;
+  background: var(--white); border: 1.5px solid var(--border-mid);
+  transform: translate(-50%, -50%); display: flex; align-items: center;
+  justify-content: center; z-index: 8; overflow: hidden;
+  box-shadow: 0 4px 32px rgba(107,30,46,0.12);
+}
+.hs-inner { display: flex; flex-direction: column; align-items: center; gap: 7px; }
+.hs-circle { width: 48px; height: 48px; border-radius: 50%; background: var(--warm-gray); }
+.hs-line   { width: 36px; height: 3px; border-radius: 2px; background: var(--warm-gray); }
+.hs-line2  { width: 26px; height: 3px; border-radius: 2px; background: var(--warm-gray); }
+.hs-hint   { font-size: 9px; font-family: 'DM Mono', monospace; color: var(--ink-faint); text-align: center; line-height: 1.5; margin-top: 1px; }
+.pmm-bubble {
+  position: absolute; width: 78px; height: 78px; border-radius: 50%;
+  background: var(--maroon); display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%); z-index: 7; cursor: pointer;
+  transition: background .2s, transform .25s;
+  box-shadow: 0 3px 18px rgba(107,30,46,0.28);
+}
+.pmm-bubble:hover { background: var(--maroon-deep); transform: translate(-50%, -50%) scale(1.1); }
+.bubble-svg { width: 26px; height: 26px; fill: none; stroke: rgba(255,255,255,0.88); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
+.bubble-label {
+  position: absolute; font-size: 12px; font-family: 'Jost', sans-serif;
+  font-weight: 400; color: var(--ink-muted); white-space: nowrap;
+  pointer-events: none; z-index: 7;
+}
+.skill-pill {
+  position: absolute; padding: 7px 16px; border-radius: 22px;
+  font-size: 13px; font-family: 'Jost', sans-serif; font-weight: 300;
+  white-space: nowrap; pointer-events: none; z-index: 5;
+}
+.pill-maroon { background: var(--maroon-pale); color: var(--maroon); border: 0.5px solid var(--maroon-soft); }
+.pill-warm   { background: var(--warm-gray); color: var(--ink-muted); border: 0.5px solid rgba(107,30,46,0.14); }
+/* APPROACH */
+.approach-section {
+  display: grid; grid-template-columns: 1fr 2fr; gap: 56px;
+  padding: 64px 56px; border-bottom: 0.5px solid var(--border); align-items: start;
+}
+.approach-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400; line-height: 1.2; }
+.approach-title em { font-style: italic; color: var(--maroon); }
+.approach-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 32px; }
+.approach-num { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--maroon-soft); margin-bottom: 12px; }
+.approach-item-title { font-size: 14px; font-weight: 500; margin-bottom: 6px; }
+.approach-item-desc { font-size: 13px; font-weight: 300; color: var(--ink-muted); line-height: 1.65; }
+/* WORK */
+.section-header { display: flex; align-items: baseline; justify-content: space-between; padding: 48px 56px 30px; }
+.section-title { font-family: 'Cormorant Garamond', serif; font-size: 30px; font-weight: 400; }
+.section-title em { font-style: italic; color: var(--maroon); }
+.section-meta { font-size: 11px; font-family: 'DM Mono', monospace; color: var(--ink-faint); }
+.work-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 1px; background: var(--border); border-top: 0.5px solid var(--border); }
+.work-card { background: var(--white); padding: 34px 30px; transition: background .2s; }
+.work-card:hover { background: var(--maroon-pale); }
+.work-type { font-size: 10px; font-family: 'DM Mono', monospace; letter-spacing: .07em; text-transform: uppercase; color: var(--maroon-mid); margin-bottom: 14px; }
+.work-title { font-size: 15px; font-weight: 500; line-height: 1.4; margin-bottom: 10px; }
+.work-desc { font-size: 13px; font-weight: 300; color: var(--ink-muted); line-height: 1.65; margin-bottom: 20px; }
+.chip { display: inline-block; font-size: 11px; padding: 4px 10px; border-radius: 3px; font-family: 'DM Mono', monospace; margin-right: 5px; margin-bottom: 5px; }
+.chip-a { background: var(--maroon-pale); color: var(--maroon); }
+.chip-b { background: var(--warm-gray); color: var(--ink-muted); }
+.chip-c { background: var(--maroon-deep); color: rgba(255,255,255,.85); }
+.work-card-featured { grid-column: span 2; background: var(--off); }
+.work-card-featured:hover { background: var(--maroon-pale); }
+.feat-inner { display: grid; grid-template-columns: 1fr 1fr; gap: 28px; margin-top: 10px; }
+.feat-preview { background: var(--white); border: 0.5px solid var(--border); border-radius: 10px; padding: 20px; }
+.preview-head { font-size: 12px; font-weight: 500; margin-bottom: 12px; }
+.preview-row { display: flex; justify-content: space-between; padding: 7px 0; border-bottom: 0.5px solid var(--border); font-size: 12px; color: var(--ink-muted); }
+.preview-row:last-child { border-bottom: none; }
+.preview-val { font-family: 'DM Mono', monospace; font-size: 11px; color: var(--ink); }
+/* FOOTER */
+footer { display: flex; justify-content: space-between; align-items: center; padding: 24px 56px; font-size: 11px; font-family: 'DM Mono', monospace; color: var(--ink-faint); border-top: 0.5px solid var(--border); }
+footer a { color: inherit; text-decoration: none; }
+footer a:hover { color: var(--maroon); }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>Jenny Hua</h1>
-    <div class="divider"></div>
-    <p class="title">Go-to-Market Strategist</p>
-    <p class="message">
-      Something great is on the way.<br />
-      This site is currently under construction.
-    </p>
-    <div class="badge">Coming Soon</div>
-    <p class="about">Product Marketing Manager at the intersection of product, storytelling, and go-to-market strategy. I work with B2B SaaS and technology teams to turn complex ideas into clear positioning, compelling narratives, and high-impact launches. Passionate about understanding customers deeply and building messaging that not only resonates but drives adoption and real business outcomes.</p>
-    <br />
-    <a class="linkedin-link" href="https://ca.linkedin.com/in/jenny-hua" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn">
-      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor">
-        <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
-      </svg>
-    </a>
+<nav>
+  <div class="nav-logo">jenny<em>hua</em></div>
+  <div class="nav-links">
+    <a href="#thinking">thinking</a>
+    <a href="#work">work</a>
+    <a href="#about">about</a>
   </div>
-  <footer>&copy; 2026 Jenny Hua</footer>
-
-  <script>
-    document.addEventListener('mousemove', function(e) {
-      var x = (e.clientX / window.innerWidth) * 100;
-      var y = (e.clientY / window.innerHeight) * 100;
-      document.body.style.background =
-        'radial-gradient(circle at ' + x + '% ' + y + '%, #fff0f0 0%, #ffffff 60%)';
+  <a class="nav-cta" href="mailto:jenny@email.com">say hello &rarr;</a>
+</nav>
+<!-- HERO -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">Product Marketing &middot; GTM &middot; Narrative</div>
+    <h1 class="hero-headline">I turn product <em>complexity</em><br>into market clarity</h1>
+    <p class="hero-sub">PMM at the intersection of product, story, and go-to-market. I work with B2B SaaS teams to turn complex ideas into positioning that sticks, narratives that move markets, and launches that actually land.</p>
+  </div>
+  <div class="snapshot-card">
+    <div class="snapshot-label">snapshot &middot; impact by the numbers</div>
+    <div class="stat-grid">
+      <div><div class="stat-num">8</div><div class="stat-desc">product launches</div><div class="stat-bar"><div class="stat-bar-fill" style="width:80%"></div></div></div>
+      <div><div class="stat-num">3</div><div class="stat-desc">categories shaped</div><div class="stat-bar"><div class="stat-bar-fill" style="width:55%"></div></div></div>
+      <div><div class="stat-num">2x</div><div class="stat-desc">avg. pipeline influenced</div><div class="stat-bar"><div class="stat-bar-fill" style="width:65%"></div></div></div>
+      <div><div class="stat-num">40+</div><div class="stat-desc">sales assets built</div><div class="stat-bar"><div class="stat-bar-fill" style="width:70%"></div></div></div>
+    </div>
+  </div>
+</section>
+<!-- CONSTELLATION -->
+<section class="constellation-section" id="about">
+  <div class="c-label">who i am &middot; what i do</div>
+  <canvas id="ccanvas"></canvas>
+  <div class="center-headshot" id="cnode">
+    <div class="hs-inner">
+      <div class="hs-circle"></div>
+      <div class="hs-line"></div>
+      <div class="hs-line2"></div>
+      <div class="hs-hint">Jenny<br>Hua</div>
+    </div>
+  </div>
+  <div id="bubbles"></div>
+  <div id="pills"></div>
+</section>
+<!-- HOW I THINK -->
+<section class="approach-section" id="thinking">
+  <h2 class="approach-title">How I <em>think</em></h2>
+  <div class="approach-grid">
+    <div>
+      <div class="approach-num">01</div>
+      <div class="approach-item-title">Customer first, always</div>
+      <div class="approach-item-desc">Every positioning decision starts with what the buyer already believes before we show up.</div>
+    </div>
+    <div>
+      <div class="approach-num">02</div>
+      <div class="approach-item-title">Narrative over features</div>
+      <div class="approach-item-desc">I look for the story that makes the market move — then build the messaging architecture around it.</div>
+    </div>
+    <div>
+      <div class="approach-num">03</div>
+      <div class="approach-item-title">Sales as an input</div>
+      <div class="approach-item-desc">I treat reps as the best research channel. If they can't tell the story, the story isn't ready.</div>
+    </div>
+  </div>
+</section>
+<!-- WORK -->
+<section id="work">
+  <div class="section-header">
+    <h2 class="section-title">Selected <em>work</em></h2>
+    <span class="section-meta">6 projects &middot; 2022&ndash;2025</span>
+  </div>
+  <div class="work-grid">
+    <div class="work-card work-card-featured">
+      <div class="work-type">featured &middot; launch strategy</div>
+      <div class="feat-inner">
+        <div>
+          <div class="work-title">Zero-to-one GTM for an AI workflow tool</div>
+          <div class="work-desc">Owned positioning, ICP definition, and launch sequencing for a greenfield product. Took it from internal beta to first 200 paying customers in 90 days.</div>
+          <span class="chip chip-a">positioning doc</span>
+          <span class="chip chip-b">ICP framework</span>
+          <span class="chip chip-c">launch playbook</span>
+        </div>
+        <div class="feat-preview">
+          <div class="preview-head">Positioning framework excerpt</div>
+          <div class="preview-row"><span>For who</span><span class="preview-val">ops teams 50&ndash;500</span></div>
+          <div class="preview-row"><span>Problem</span><span class="preview-val">tool sprawl + lost context</span></div>
+          <div class="preview-row"><span>Alternative</span><span class="preview-val">Notion + Slack + Jira</span></div>
+          <div class="preview-row"><span>Key claim</span><span class="preview-val">one source of work truth</span></div>
+          <div class="preview-row"><span>Proof</span><span class="preview-val">4.2hr/wk saved, avg</span></div>
+        </div>
+      </div>
+    </div>
+    <div class="work-card">
+      <div class="work-type">competitive &middot; enablement</div>
+      <div class="work-title">Battle card system for a 60-rep sales org</div>
+      <div class="work-desc">Built a living competitive intel framework covering 5 rivals. Reduced deal cycle by 12 days on competitive opps.</div>
+      <span class="chip chip-a">battle cards</span><span class="chip chip-b">objection handling</span>
+    </div>
+    <div class="work-card">
+      <div class="work-type">narrative &middot; category</div>
+      <div class="work-title">Category narrative: "The Great IT Consolidation"</div>
+      <div class="work-desc">Defined a new market category to shift buying criteria in our favor. Used in keynotes, analyst briefings, and press.</div>
+      <span class="chip chip-c">thought leadership</span><span class="chip chip-a">analyst deck</span>
+    </div>
+    <div class="work-card">
+      <div class="work-type">messaging &middot; web</div>
+      <div class="work-title">Homepage messaging overhaul &mdash; 34% lift in demo requests</div>
+      <div class="work-desc">Led customer research, rewrote the messaging hierarchy, and partnered with design on a full homepage rebuild.</div>
+      <span class="chip chip-a">A/B results</span><span class="chip chip-b">research synthesis</span>
+    </div>
+    <div class="work-card">
+      <div class="work-type">enablement &middot; persona</div>
+      <div class="work-title">Persona-based sales deck for enterprise motion</div>
+      <div class="work-desc">Three buyer personas, three narrative paths. Gave reps a modular pitch system instead of a 60-slide monolith.</div>
+      <span class="chip chip-c">sales deck</span><span class="chip chip-b">persona docs</span>
+    </div>
+    <div class="work-card">
+      <div class="work-type">pricing &middot; packaging</div>
+      <div class="work-title">Packaging architecture for a 3-tier SaaS model</div>
+      <div class="work-desc">Collaborated with product and pricing to restructure tiers around jobs-to-be-done instead of feature counts.</div>
+      <span class="chip chip-a">packaging strategy</span><span class="chip chip-b">research</span>
+    </div>
+  </div>
+</section>
+<footer>
+  <span>&copy; 2025 Jenny Hua</span>
+  <span><a href="#">linkedin</a> &middot; <a href="#">resume</a> &middot; <a href="mailto:jenny@email.com">email</a></span>
+</footer>
+<script>
+(function () {
+  var section = document.querySelector('.constellation-section');
+  var canvas  = document.getElementById('ccanvas');
+  var cnode   = document.getElementById('cnode');
+  var bubWrap = document.getElementById('bubbles');
+  var pilWrap = document.getElementById('pills');
+  var ctx     = canvas.getContext('2d');
+  var fns = [
+    { label: 'Messaging',         angle: 145 },
+    { label: 'Positioning',       angle: 168 },
+    { label: 'Launch GTM',        angle: 191 },
+    { label: 'Competitive Intel', angle: 214 },
+    { label: 'Sales Enablement',  angle: 235 }
+  ];
+  var iconPaths = [
+    '<polyline points="4 7 12 3 20 7"/><polyline points="4 12 12 8 20 12"/><polyline points="4 17 12 13 20 17"/>',
+    '<circle cx="12" cy="12" r="3"/><line x1="12" y1="2" x2="12" y2="5"/><line x1="12" y1="19" x2="12" y2="22"/><line x1="4.22" y1="4.22" x2="6.34" y2="6.34"/><line x1="17.66" y1="17.66" x2="19.78" y2="19.78"/><line x1="2" y1="12" x2="5" y2="12"/><line x1="19" y1="12" x2="22" y2="12"/>',
+    '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
+    '<line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/>',
+    '<path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/>'
+  ];
+  var hardSkills = [
+    'Positioning frameworks','GTM strategy','Sales enablement',
+    'Narrative architecture','Competitive intel','ICP research',
+    'A/B messaging tests','Launch playbooks','Pricing strategy'
+  ];
+  var softSkills = [
+    'Curiosity','Empathy','Clarity','Boldness','Rigor',
+    'Collaboration','Intuition','Adaptability','Storytelling',
+    'Creativity','Precision','Energy'
+  ];
+  var W, H, cx, cy, pills = [], raf, lastTs = null;
+  function resize() {
+    W = section.offsetWidth;
+    H = section.offsetHeight;
+    canvas.width  = W;
+    canvas.height = H;
+    cx = W * 0.44;
+    cy = H * 0.50;
+    cnode.style.left = cx + 'px';
+    cnode.style.top  = cy + 'px';
+    renderBubbles();
+    drawLines();
+    resetPills();
+  }
+  function renderBubbles() {
+    bubWrap.innerHTML = '';
+    var r = 195;
+    fns.forEach(function(fn, i) {
+      var rad = fn.angle * Math.PI / 180;
+      var bx  = cx + r * Math.cos(rad);
+      var by  = cy + r * Math.sin(rad);
+      var bub = document.createElement('div');
+      bub.className  = 'pmm-bubble';
+      bub.style.left = bx + 'px';
+      bub.style.top  = by + 'px';
+      bub.innerHTML  = '<svg class="bubble-svg" viewBox="0 0 24 24">' + iconPaths[i] + '</svg>';
+      bubWrap.appendChild(bub);
+      var lr  = r + 60;
+      var lx  = cx + lr * Math.cos(rad);
+      var ly  = cy + lr * Math.sin(rad);
+      var lbl = document.createElement('div');
+      lbl.className       = 'bubble-label';
+      lbl.style.left      = lx + 'px';
+      lbl.style.top       = ly + 'px';
+      lbl.style.transform = 'translate(-50%, -50%)';
+      lbl.textContent     = fn.label;
+      bubWrap.appendChild(lbl);
     });
-
-    document.addEventListener('mouseleave', function() {
-      document.body.style.background = '#ffffff';
+  }
+  function drawLines() {
+    ctx.clearRect(0, 0, W, H);
+    ctx.strokeStyle = 'rgba(107,30,46,0.1)';
+    ctx.lineWidth   = 0.8;
+    var r = 195;
+    fns.forEach(function(fn) {
+      var rad = fn.angle * Math.PI / 180;
+      ctx.beginPath();
+      ctx.moveTo(cx, cy);
+      ctx.lineTo(cx + r * Math.cos(rad), cy + r * Math.sin(rad));
+      ctx.stroke();
     });
-  </script>
+  }
+  function resetPills() {
+    pilWrap.innerHTML = '';
+    pills = [];
+    var all = [];
+    hardSkills.forEach(function(s) { all.push({ text: s, cls: 'pill-maroon' }); });
+    softSkills.forEach(function(s) { all.push({ text: s, cls: 'pill-warm' }); });
+    var spawnLeft = cx + 160;
+    all.forEach(function(sk, i) {
+      var el = document.createElement('div');
+      el.className     = 'skill-pill ' + sk.cls;
+      el.textContent   = sk.text;
+      el.style.opacity = '0';
+      var sx = spawnLeft + Math.random() * (W - spawnLeft - 40);
+      var sy = 60 + Math.random() * (H - 120);
+      el.style.left = sx + 'px';
+      el.style.top  = sy + 'px';
+      pilWrap.appendChild(el);
+      var delay = i * 185 + Math.random() * 350;
+      var dur   = 3200 + Math.random() * 2000;
+      pills.push({ el: el, sx: sx, sy: sy, delay: delay, dur: dur, t: -delay, w: 0, h: 0 });
+    });
+    requestAnimationFrame(function() {
+      pills.forEach(function(p) {
+        var rect = p.el.getBoundingClientRect();
+        p.w = rect.width;
+        p.h = rect.height;
+      });
+    });
+  }
+  function animate(ts) {
+    if (!ts) ts = 0;
+    var dt = lastTs ? Math.min(ts - lastTs, 50) : 16;
+    lastTs = ts;
+    pills.forEach(function(p) {
+      p.t += dt;
+      if (p.t < 0) return;
+      var prog = Math.min(p.t / p.dur, 1);
+      if (prog < 1) {
+        var ease = 1 - Math.pow(1 - prog, 3);
+        var tx = cx - p.w / 2;
+        var ty = cy - p.h / 2;
+        p.el.style.left = (p.sx + (tx - p.sx) * ease) + 'px';
+        p.el.style.top  = (p.sy + (ty - p.sy) * ease) + 'px';
+        var fi = Math.min(prog * 6, 1);
+        var fo = prog > 0.70 ? 1 - (prog - 0.70) / 0.30 : 1;
+        p.el.style.opacity = fi * fo;
+      } else {
+        p.el.style.opacity = '0';
+        p.t = -(900 + Math.random() * 2600);
+        var spawnLeft = cx + 160;
+        p.sx = spawnLeft + Math.random() * (W - spawnLeft - 40);
+        p.sy = 60 + Math.random() * (H - 120);
+        p.el.style.left = p.sx + 'px';
+        p.el.style.top  = p.sy + 'px';
+      }
+    });
+    raf = requestAnimationFrame(animate);
+  }
+  new ResizeObserver(function() {
+    cancelAnimationFrame(raf);
+    lastTs = null;
+    resize();
+    animate();
+  }).observe(section);
+  resize();
+  animate();
+})();
+</script>
 </body>
 </html>
