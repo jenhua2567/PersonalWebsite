@@ -76,16 +76,13 @@ nav {
 }
 /* MAIN */
 main {
-  flex: 1;
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
+  display: block;
   position: relative;
   z-index: 1;
-  padding: 12vh 10vw 8vh;
 }
 .center {
   width: 100%;
+  padding: 12vh 10vw 8vh;
 }
 .eyebrow {
   font-family: 'DM Mono', monospace;
@@ -256,7 +253,7 @@ footer {
 @media (max-width: 600px) {
   nav { padding: 20px 24px; }
   .nav-status { display: none; }
-  main { padding: 6vh 6vw 5vh; }
+  .center { padding: 6vh 6vw 5vh; }
   .headline { font-size: clamp(2.6rem, 12vw, 3.4rem); }
   .bio { font-size: 1rem; }
   .bio br { display: none; }
@@ -306,20 +303,8 @@ footer {
         say hello
       </a>
     </div>
-    <div class="skills-strip fade-up" style="animation-delay:0.5s">
-      <span class="skill-tag">Positioning</span>
-      <span class="skill-tag">Launch GTM</span>
-      <span class="skill-tag">Sales Enablement</span>
-      <span class="skill-tag">Competitive Intel</span>
-      <span class="skill-tag">Messaging</span>
-      <span class="skill-tag">Curiosity</span>
-      <span class="skill-tag">Storytelling</span>
-      <span class="skill-tag">Clarity</span>
-      <span class="skill-tag">Rigor</span>
-    </div>
   </div>
-</main>
-<section class="constellation-section" id="skills">
+  <section class="constellation-section" id="skills">
   <div class="c-label">who i am · what i do</div>
   <canvas id="ccanvas"></canvas>
   <div class="center-headshot" id="cnode">
@@ -328,6 +313,7 @@ footer {
   <div id="bubbles"></div>
   <div id="pills"></div>
 </section>
+</main>
 <footer>
   <span>&copy; 2026 Jenny Hua</span>
   <span>Full portfolio coming soon</span>
