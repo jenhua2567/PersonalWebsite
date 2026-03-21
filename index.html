@@ -4,6 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Jenny Hua · PMM</title>
+<link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Mono:wght@400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
 <style>
@@ -262,27 +263,38 @@ footer {
 <script>
 (function() {
   var glow = document.getElementById('glow');
-  var raf;
-  function setGlow(x, y, opacity) {
-    var px = (x / window.innerWidth  * 100).toFixed(2) + '%';
-    var py = (y / window.innerHeight * 100).toFixed(2) + '%';
+  var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
+  var cx = tx, cy = ty;
+  var visible = false;
+  var ease = 0.072;
+
+  function render() {
+    cx += (tx - cx) * ease;
+    cy += (ty - cy) * ease;
+    var px = (cx / window.innerWidth  * 100).toFixed(3) + '%';
+    var py = (cy / window.innerHeight * 100).toFixed(3) + '%';
     glow.style.background =
-      'radial-gradient(600px circle at ' + px + ' ' + py + ', rgba(232,176,185,0.38) 0%, rgba(247,234,236,0.18) 40%, transparent 70%)';
-    glow.style.opacity = opacity;
+      'radial-gradient(600px circle at ' + px + ' ' + py +
+      ', rgba(232,176,185,0.38) 0%, rgba(247,234,236,0.18) 40%, transparent 70%)';
+    requestAnimationFrame(render);
   }
+
   document.addEventListener('mousemove', function(e) {
-    if (raf) return;
-    raf = requestAnimationFrame(function() {
-      setGlow(e.clientX, e.clientY, '1');
-      raf = null;
-    });
+    tx = e.clientX; ty = e.clientY;
+    if (!visible) { cx = tx; cy = ty; visible = true; glow.style.opacity = '1'; }
   });
   document.addEventListener('mouseleave', function() {
+    visible = false;
     glow.style.opacity = '0';
   });
   document.addEventListener('mouseenter', function(e) {
-    setGlow(e.clientX, e.clientY, '1');
+    tx = e.clientX; ty = e.clientY;
+    cx = tx; cy = ty;
+    visible = true;
+    glow.style.opacity = '1';
   });
+
+  render();
 })();
 </script>
 </body>
