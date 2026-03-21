@@ -148,6 +148,9 @@ main {
 }
 .link-linkedin svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
 .link-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   font-family: 'DM Mono', monospace;
   font-size: 11px;
   letter-spacing: 0.08em;
@@ -159,6 +162,7 @@ main {
   border-radius: 4px;
   transition: background 0.2s, color 0.2s, transform 0.2s, border-color 0.2s;
 }
+.link-email svg { width: 14px; height: 14px; stroke: currentColor; flex-shrink: 0; }
 .link-email:hover {
   background: var(--maroon-pale);
   transform: translateY(-1px);
@@ -183,11 +187,6 @@ main {
   color: var(--maroon);
   background: var(--maroon-pale);
   border: 0.5px solid var(--maroon-soft);
-}
-.skill-tag.warm {
-  color: var(--ink-muted);
-  background: #EDE9E3;
-  border-color: rgba(107,30,46,0.12);
 }
 /* FOOTER */
 footer {
@@ -214,12 +213,12 @@ footer {
 /* DECORATIVE LETTER */
 .deco-letter {
   position: fixed;
-  bottom: -0.15em;
+  bottom: 2vh;
   right: -0.05em;
   font-family: 'EB Garamond', serif;
   font-size: 40vw;
   line-height: 1;
-  color: rgba(122, 30, 46, 0.03);
+  color: rgba(122, 30, 46, 0.07);
   pointer-events: none;
   user-select: none;
   z-index: 0;
@@ -240,9 +239,16 @@ footer {
 .fade-up-4 { animation-delay: 0.4s; }
 /* RESPONSIVE */
 @media (max-width: 600px) {
-  nav, footer { padding-left: 28px; padding-right: 28px; }
-  main { padding: 8vh 7vw 6vh; }
-  .headline { font-size: clamp(2.8rem, 11vw, 3.5rem); }
+  nav { padding: 20px 24px; }
+  .nav-status { display: none; }
+  main { padding: 6vh 6vw 5vh; }
+  .headline { font-size: clamp(2.6rem, 12vw, 3.4rem); }
+  .bio { font-size: 1rem; }
+  .bio br { display: none; }
+  .links { flex-direction: column; align-items: flex-start; gap: 12px; }
+  .link-linkedin, .link-email { width: 100%; justify-content: center; }
+  footer { padding: 20px 24px; flex-direction: column; gap: 6px; text-align: center; }
+  .deco-letter { font-size: 60vw; }
 }
 </style>
 </head>
@@ -277,7 +283,13 @@ footer {
         </svg>
         LinkedIn
       </a>
-      <a class="link-email" href="mailto:jenny@email.com">say hello &rarr;</a>
+      <a class="link-email" href="mailto:contact@jenny-hua.com">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+          <rect x="2" y="4" width="20" height="16" rx="2"/>
+          <polyline points="2,4 12,13 22,4"/>
+        </svg>
+        say hello
+      </a>
     </div>
     <div class="skills-strip fade-up" style="animation-delay:0.5s">
       <span class="skill-tag">Positioning</span>
@@ -285,10 +297,10 @@ footer {
       <span class="skill-tag">Sales Enablement</span>
       <span class="skill-tag">Competitive Intel</span>
       <span class="skill-tag">Messaging</span>
-      <span class="skill-tag warm">Curiosity</span>
-      <span class="skill-tag warm">Storytelling</span>
-      <span class="skill-tag warm">Clarity</span>
-      <span class="skill-tag warm">Rigor</span>
+      <span class="skill-tag">Curiosity</span>
+      <span class="skill-tag">Storytelling</span>
+      <span class="skill-tag">Clarity</span>
+      <span class="skill-tag">Rigor</span>
     </div>
   </div>
 </main>
