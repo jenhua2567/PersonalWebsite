@@ -7,26 +7,34 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Mono:wght@400;500&family=EB+Garamond:wght@400&family=Jost:wght@300;400;500&display=swap" rel="stylesheet">
+<!-- noscript: hide canvas section, reveal static fallback -->
+<noscript><style>
+  .constellation-section { display: none !important; }
+  .skills-noscript { display: block !important; }
+</style></noscript>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 :root {
-  --white:       #FDFCF9;
-  --off:         #F5F2ED;
-  --maroon:      #6B1E2E;
-  --maroon-mid:  #8B2A3D;
-  --maroon-pale: #F7EAEC;
-  --maroon-soft: #E8C8CE;
-  --maroon-deep: #4A1220;
-  --ink:         #1C1612;
-  --ink-muted:   #6B6258;
-  --ink-faint:   #A89E96;
-  --border:      rgba(107,30,46,0.11);
-  --border-mid:  rgba(107,30,46,0.2);
-  --warm-gray:   #EDE9E3;
+  --white:        oklch(99.2% 0.005 80);
+  --off:          oklch(97% 0.008 75);
+  --maroon:       oklch(31% 0.180 16);
+  --maroon-mid:   oklch(43% 0.168 16);
+  --maroon-pale:  oklch(95.5% 0.026 18);
+  --maroon-soft:  oklch(87.5% 0.058 17);
+  --maroon-deep:  oklch(22% 0.158 14);
+  --rose:         oklch(50% 0.115 18);
+  --rose-bright:  oklch(66% 0.100 20);
+  --ink:          oklch(17% 0.016 30);
+  --ink-muted:    oklch(50% 0.018 32);
+  --ink-faint:    oklch(68% 0.012 38);
+  --border:       oklch(31% 0.180 16 / 0.11);
+  --border-mid:   oklch(31% 0.180 16 / 0.20);
+  --warm-gray:    oklch(93.5% 0.010 60);
+  /* glow position — updated by JS each frame */
+  --glow-x: 50%;
+  --glow-y: 50%;
 }
-html, body {
-  height: 100%;
-}
+html, body { height: 100%; }
 body {
   font-family: 'Jost', sans-serif;
   background: var(--white);
@@ -35,6 +43,25 @@ body {
   flex-direction: column;
   min-height: 100vh;
 }
+
+/* SKIP LINK */
+.skip-link {
+  position: absolute;
+  top: -100%;
+  left: 0;
+  z-index: 200;
+  background: var(--maroon);
+  color: var(--white);
+  font-family: 'DM Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 20px;
+  transition: top 0.15s ease;
+}
+.skip-link:focus { top: 0; }
+
 /* NAV */
 nav {
   display: flex;
@@ -54,6 +81,11 @@ nav {
   color: var(--ink);
 }
 .nav-logo em { font-style: italic; color: var(--maroon); }
+.nav-logo:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 4px;
+  border-radius: 2px;
+}
 .nav-status {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -67,29 +99,29 @@ nav {
 .nav-status-dot {
   width: 6px; height: 6px;
   border-radius: 50%;
-  background: var(--maroon-soft);
+  background: var(--rose-bright);
   animation: pulse 2.5s ease-in-out infinite;
 }
 @keyframes pulse {
   0%, 100% { opacity: 1; transform: scale(1); }
-  50% { opacity: 0.4; transform: scale(0.85); }
+  50%       { opacity: 0.4; transform: scale(0.85); }
 }
+
 /* MAIN */
-main {
-  display: block;
-  position: relative;
-  z-index: 1;
-}
+main { display: block; position: relative; z-index: 1; }
 .center {
   width: 100%;
   padding: 12vh 10vw 8vh;
+  background-image:
+    radial-gradient(ellipse 78% 58% at 88% 6%, oklch(87.5% 0.058 17 / 0.28) 0%, transparent 65%),
+    radial-gradient(ellipse 52% 42% at 6% 90%, oklch(95.5% 0.026 18 / 0.22) 0%, transparent 55%);
 }
 .eyebrow {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
   letter-spacing: 0.14em;
   text-transform: uppercase;
-  color: var(--maroon-mid);
+  color: var(--maroon);
   margin-bottom: 28px;
 }
 .headline {
@@ -101,10 +133,7 @@ main {
   margin-bottom: 32px;
   color: var(--ink);
 }
-.headline em {
-  font-style: italic;
-  color: var(--maroon);
-}
+.headline em { font-style: italic; color: var(--rose); }
 .divider {
   width: 48px;
   height: 0.5px;
@@ -118,13 +147,9 @@ main {
   line-height: 1.8;
   margin-bottom: 48px;
 }
+
 /* LINKS ROW */
-.links {
-  display: flex;
-  align-items: center;
-  gap: 20px;
-  flex-wrap: wrap;
-}
+.links { display: flex; align-items: center; gap: 20px; flex-wrap: wrap; }
 .link-linkedin {
   display: inline-flex;
   align-items: center;
@@ -143,7 +168,11 @@ main {
 .link-linkedin:hover {
   background: var(--maroon-deep);
   transform: translateY(-1px);
-  box-shadow: 0 6px 20px rgba(122, 30, 46, 0.25);
+  box-shadow: 0 6px 20px oklch(31% 0.180 16 / 0.28);
+}
+.link-linkedin:focus-visible {
+  outline: 2px solid var(--maroon);
+  outline-offset: 3px;
 }
 .link-linkedin svg { width: 14px; height: 14px; fill: currentColor; flex-shrink: 0; }
 .link-email {
@@ -154,7 +183,7 @@ main {
   font-size: 11px;
   letter-spacing: 0.08em;
   text-transform: uppercase;
-  color: var(--maroon);
+  color: var(--rose);
   text-decoration: none;
   border: 0.5px solid var(--maroon-soft);
   padding: 12px 22px;
@@ -165,63 +194,46 @@ main {
 .link-email:hover {
   background: var(--maroon-pale);
   transform: translateY(-1px);
-  border-color: var(--maroon-mid);
+  border-color: var(--rose);
 }
-/* SKILLS STRIP */
-.skills-strip {
-  display: flex;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin-top: 56px;
-  padding-top: 40px;
-  border-top: 0.5px solid var(--border);
+.link-email:focus-visible {
+  outline: 2px solid var(--rose);
+  outline-offset: 3px;
 }
-.skill-tag {
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  letter-spacing: 0.07em;
-  text-transform: uppercase;
-  padding: 6px 12px;
-  border-radius: 3px;
-  color: var(--maroon);
-  background: var(--maroon-pale);
-  border: 0.5px solid var(--maroon-soft);
-}
+
 /* FOOTER */
 footer {
-  position: relative;
-  z-index: 10;
+  position: relative; z-index: 10;
   padding: 24px 56px;
   border-top: 0.5px solid var(--border);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-family: 'DM Mono', monospace;
-  font-size: 10px;
-  color: var(--ink-faint);
-  letter-spacing: 0.06em;
+  display: flex; justify-content: space-between; align-items: center;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--ink-faint); letter-spacing: 0.06em;
 }
-/* GLOW */
+
+/* GLOW — position driven by CSS custom properties, updated each rAF */
 #glow {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 0;
+  position: fixed; inset: 0;
+  pointer-events: none; z-index: 0;
+  opacity: 0;
   transition: opacity 0.6s ease;
+  background: radial-gradient(
+    600px circle at var(--glow-x) var(--glow-y),
+    oklch(87.5% 0.058 17 / 0.32) 0%,
+    oklch(95.5% 0.026 18 / 0.14) 40%,
+    transparent 70%
+  );
 }
+
 /* DECORATIVE LETTER */
 .deco-letter {
-  position: fixed;
-  bottom: 2vh;
-  right: -0.05em;
+  position: fixed; bottom: 2vh; right: -0.05em;
   font-family: 'EB Garamond', serif;
-  font-size: 40vw;
-  line-height: 1;
-  color: rgba(122, 30, 46, 0.07);
-  pointer-events: none;
-  user-select: none;
-  z-index: 0;
+  font-size: 40vw; line-height: 1;
+  color: oklch(31% 0.180 16 / 0.07);
+  pointer-events: none; user-select: none; z-index: 0;
 }
+
 /* FADE-UP ANIMATIONS */
 @keyframes fadeUp {
   from { opacity: 0; transform: translateY(24px); }
@@ -229,6 +241,7 @@ footer {
 }
 .fade-up {
   opacity: 0;
+  will-change: transform, opacity;
   animation: fadeUp 0.6s ease forwards;
 }
 .fade-up-0 { animation-delay: 0s; }
@@ -236,20 +249,102 @@ footer {
 .fade-up-2 { animation-delay: 0.2s; }
 .fade-up-3 { animation-delay: 0.3s; }
 .fade-up-4 { animation-delay: 0.4s; }
+
 /* CONSTELLATION SECTION */
-.constellation-section {   width: 100%; height: 580px; position: relative;   border-bottom: 0.5px solid var(--border); overflow: hidden; background: var(--off); }
-.c-label {   position: absolute; top: 28px; left: 56px; right: auto; text-align: left;   font-family: 'DM Mono', monospace; font-size: 10px;   color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; z-index: 10; }
+.constellation-section {
+  width: 100%; height: 580px; position: relative;
+  border-bottom: 0.5px solid var(--border);
+  overflow: hidden; background: var(--off);
+}
+.c-label {
+  position: absolute; top: 28px; left: 56px;
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase; z-index: 10;
+}
 #ccanvas { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; }
-.center-headshot {   position: absolute; width: 148px; height: 148px; border-radius: 50%;   background: var(--white); border: 1.5px solid var(--border-mid);   transform: translate(-50%, -50%); display: flex; align-items: center;   justify-content: center; z-index: 8; overflow: hidden;   box-shadow: 0 4px 32px rgba(107,30,46,0.12); }
-.center-headshot-monogram {   font-family: 'Cormorant Garamond', serif;   font-size: 32px; font-weight: 400; font-style: italic;   color: var(--maroon); user-select: none; }
-.pmm-bubble {   position: absolute; width: 78px; height: 78px; border-radius: 50%;   background: var(--maroon); display: flex; align-items: center; justify-content: center;   transform: translate(-50%, -50%); z-index: 7; cursor: pointer;   transition: background .2s, transform .25s; box-shadow: 0 3px 18px rgba(107,30,46,0.28); }
+.center-headshot {
+  position: absolute; width: 148px; height: 148px; border-radius: 50%;
+  background: var(--white); border: 1.5px solid var(--border-mid);
+  transform: translate(-50%, -50%);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 8; overflow: hidden;
+  box-shadow: 0 4px 32px oklch(31% 0.180 16 / 0.12);
+}
+.center-headshot-monogram {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 32px; font-weight: 400; font-style: italic;
+  color: var(--maroon); user-select: none;
+}
+/* button reset + bubble styles */
+.pmm-bubble {
+  position: absolute; width: 78px; height: 78px; border-radius: 50%;
+  background: var(--maroon);
+  display: flex; align-items: center; justify-content: center;
+  transform: translate(-50%, -50%); z-index: 7;
+  border: none; cursor: pointer; padding: 0;
+  transition: background .2s, transform .25s;
+  box-shadow: 0 3px 18px oklch(31% 0.180 16 / 0.28);
+}
 .pmm-bubble:hover { background: var(--maroon-deep); transform: translate(-50%, -50%) scale(1.1); }
-.bubble-svg { width: 26px; height: 26px; fill: none; stroke: rgba(255,255,255,0.88); stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round; }
-.bubble-label {   position: absolute; font-size: 12px; font-family: 'Jost', sans-serif;   font-weight: 400; white-space: nowrap; pointer-events: none; z-index: 7;   background: var(--maroon-pale); color: var(--maroon);   border: 0.5px solid var(--maroon-soft); border-radius: 22px;   padding: 6px 14px; }
-.skill-pill {   position: absolute; padding: 7px 18px; border-radius: 22px;   font-size: 13px; font-family: 'Jost', sans-serif; font-weight: 300;   white-space: nowrap; pointer-events: none; z-index: 5;   transition: opacity 0.4s ease; }
+.pmm-bubble:focus-visible {
+  outline: 2px solid var(--white);
+  outline-offset: 3px;
+}
+.bubble-svg {
+  width: 26px; height: 26px; fill: none;
+  stroke: oklch(99.2% 0.005 80 / 0.88);
+  stroke-width: 1.5; stroke-linecap: round; stroke-linejoin: round;
+  pointer-events: none;
+}
+.bubble-label {
+  position: absolute; font-size: 12px; font-family: 'Jost', sans-serif;
+  font-weight: 400; white-space: nowrap; pointer-events: none; z-index: 7;
+  background: var(--maroon-pale); color: var(--maroon);
+  border: 0.5px solid var(--maroon-soft); border-radius: 22px; padding: 6px 14px;
+}
+.skill-pill {
+  position: absolute; padding: 7px 18px; border-radius: 22px;
+  font-size: 13px; font-family: 'Jost', sans-serif; font-weight: 300;
+  white-space: nowrap; pointer-events: none; z-index: 5;
+  will-change: transform;
+  transition: opacity 0.4s ease;
+}
 .pill-maroon { background: var(--maroon-pale); color: var(--maroon); border: 0.5px solid var(--maroon-soft); }
-.pill-warm   { background: var(--warm-gray); color: var(--ink-muted); border: 0.5px solid rgba(107,30,46,0.14); }
-/* RESPONSIVE */
+.pill-warm   { background: var(--warm-gray); color: var(--ink-muted); border: 0.5px solid oklch(31% 0.180 16 / 0.12); }
+
+/* NOSCRIPT SKILLS FALLBACK */
+.skills-noscript {
+  display: none;
+  padding: 40px 56px;
+  border-bottom: 0.5px solid var(--border);
+  background: var(--off);
+}
+.skills-noscript .c-label-static {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  color: var(--ink-faint); letter-spacing: .1em; text-transform: uppercase;
+  margin-bottom: 20px;
+}
+.skills-noscript .skills-list {
+  display: flex; gap: 10px; flex-wrap: wrap;
+}
+.skills-noscript .skill-item {
+  font-family: 'DM Mono', monospace; font-size: 10px;
+  letter-spacing: 0.07em; text-transform: uppercase;
+  padding: 6px 12px; border-radius: 3px;
+  color: var(--maroon); background: var(--maroon-pale); border: 0.5px solid var(--maroon-soft);
+}
+
+/* TABLET BREAKPOINT */
+@media (max-width: 768px) {
+  nav { padding: 22px 32px; }
+  .center { padding: 8vh 7vw 6vh; }
+  .constellation-section { height: 460px; }
+  .c-label { left: 32px; }
+  footer { padding: 22px 32px; }
+  .skills-noscript { padding: 32px; }
+}
+
+/* MOBILE BREAKPOINT */
 @media (max-width: 600px) {
   nav { padding: 20px 24px; }
   .nav-status { display: none; }
@@ -261,42 +356,60 @@ footer {
   .link-linkedin, .link-email { width: 100%; justify-content: center; }
   footer { padding: 20px 24px; flex-direction: column; gap: 6px; text-align: center; }
   .deco-letter { font-size: 60vw; }
+  .constellation-section { height: 380px; }
+  .c-label { left: 24px; top: 20px; }
+  .skills-noscript { padding: 24px; }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  .fade-up {
+    animation: none;
+    opacity: 1;
+    will-change: auto;
+  }
+  .nav-status-dot { animation: none; }
+  .skill-pill { transition: none; will-change: auto; }
+  .link-linkedin, .link-email { transition: none; }
+  .pmm-bubble { transition: none; }
+  * { transition-duration: 0.01ms !important; }
 }
 </style>
 </head>
 <body>
-<div id="glow"></div>
+<a href="#main-content" class="skip-link">Skip to content</a>
+<div id="glow" aria-hidden="true"></div>
 <div class="deco-letter" aria-hidden="true">J</div>
-<nav>
+<nav aria-label="Site navigation">
   <a class="nav-logo" href="#">jenny<em>hua</em></a>
-  <div class="nav-status">
+  <div class="nav-status" aria-hidden="true">
     <div class="nav-status-dot"></div>
     Site launching soon
   </div>
 </nav>
-<main>
+<main id="main-content">
   <div class="center">
-    <div class="eyebrow fade-up fade-up-0">Product Marketing · Go-to-Market · Narrative</div>
+    <div class="eyebrow fade-up fade-up-0" aria-label="Specialisms: Product Marketing, Go-to-Market, Storytelling">Product Marketing · Go-to-Market · Storytelling</div>
     <h1 class="headline fade-up fade-up-1">
       I turn product<br>
       <em>complexity</em> into<br>
       market clarity
     </h1>
-    <div class="divider fade-up fade-up-2"></div>
+    <div class="divider fade-up fade-up-2" aria-hidden="true"></div>
     <p class="bio fade-up fade-up-3">
       PMM at the intersection of product, story, and go-to-market.<br>
       I work with B2B SaaS teams to turn complex ideas into positioning<br>
       that sticks, narratives that move markets, and launches that land.
     </p>
     <div class="links fade-up fade-up-4">
-      <a class="link-linkedin" href="https://www.linkedin.com/in/jenny-hua/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+      <a class="link-linkedin" href="https://www.linkedin.com/in/jenny-hua/" target="_blank" rel="noopener noreferrer">
+        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
           <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
         </svg>
         LinkedIn
       </a>
       <a class="link-email" href="mailto:contact@jenny-hua.com">
-        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+        <svg viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
           <rect x="2" y="4" width="20" height="16" rx="2"/>
           <polyline points="2,4 12,13 22,4"/>
         </svg>
@@ -304,22 +417,51 @@ footer {
       </a>
     </div>
   </div>
-  <section class="constellation-section" id="skills">
-  <div class="c-label">who i am · what i do</div>
-  <canvas id="ccanvas"></canvas>
-  <div class="center-headshot" id="cnode">
-    <span class="center-headshot-monogram">JH</span>
+  <section class="constellation-section" id="skills" aria-labelledby="skills-label">
+    <div class="c-label" id="skills-label">who i am · what i do</div>
+    <canvas id="ccanvas" aria-hidden="true"></canvas>
+    <div class="center-headshot" id="cnode" aria-hidden="true">
+      <span class="center-headshot-monogram">JH</span>
+    </div>
+    <div id="bubbles"></div>
+    <div id="pills" aria-hidden="true"></div>
+  </section>
+  <!-- static fallback when JS is disabled -->
+  <div class="skills-noscript" role="region" aria-labelledby="skills-noscript-label">
+    <p class="c-label-static" id="skills-noscript-label">who i am · what i do</p>
+    <div class="skills-list">
+      <span class="skill-item">Positioning</span>
+      <span class="skill-item">GTM Strategy</span>
+      <span class="skill-item">Messaging</span>
+      <span class="skill-item">Sales Enablement</span>
+      <span class="skill-item">Competitive Intel</span>
+      <span class="skill-item">Storytelling</span>
+      <span class="skill-item">ICP Research</span>
+      <span class="skill-item">Launch Playbooks</span>
+      <span class="skill-item">Narrative Architecture</span>
+    </div>
   </div>
-  <div id="bubbles"></div>
-  <div id="pills"></div>
-</section>
 </main>
 <footer>
   <span>&copy; 2026 Jenny Hua</span>
   <span>Full portfolio coming soon</span>
 </footer>
+
+<!-- remove will-change after fade-up animations complete -->
 <script>
-(function() {
+setTimeout(function () {
+  document.querySelectorAll('.fade-up').forEach(function (el) {
+    el.style.willChange = 'auto';
+  });
+}, 1100);
+</script>
+
+<!-- glow: position via CSS custom properties, skip loop if reduced motion -->
+<script>
+(function () {
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+  var root = document.documentElement;
   var glow = document.getElementById('glow');
   var tx = window.innerWidth / 2, ty = window.innerHeight / 2;
   var cx = tx, cy = ty;
@@ -329,42 +471,38 @@ footer {
   function render() {
     cx += (tx - cx) * ease;
     cy += (ty - cy) * ease;
-    var px = (cx / window.innerWidth  * 100).toFixed(3) + '%';
-    var py = (cy / window.innerHeight * 100).toFixed(3) + '%';
-    glow.style.background =
-      'radial-gradient(600px circle at ' + px + ' ' + py +
-      ', rgba(232,176,185,0.38) 0%, rgba(247,234,236,0.18) 40%, transparent 70%)';
+    root.style.setProperty('--glow-x', (cx / window.innerWidth  * 100).toFixed(2) + '%');
+    root.style.setProperty('--glow-y', (cy / window.innerHeight * 100).toFixed(2) + '%');
     requestAnimationFrame(render);
   }
 
-  document.addEventListener('mousemove', function(e) {
+  document.addEventListener('mousemove', function (e) {
     tx = e.clientX; ty = e.clientY;
     if (!visible) { cx = tx; cy = ty; visible = true; glow.style.opacity = '1'; }
   });
-  document.addEventListener('mouseleave', function() {
-    visible = false;
-    glow.style.opacity = '0';
-  });
-  document.addEventListener('mouseenter', function(e) {
-    tx = e.clientX; ty = e.clientY;
-    cx = tx; cy = ty;
-    visible = true;
-    glow.style.opacity = '1';
+  document.addEventListener('mouseleave', function () { visible = false; glow.style.opacity = '0'; });
+  document.addEventListener('mouseenter', function (e) {
+    tx = e.clientX; ty = e.clientY; cx = tx; cy = ty;
+    visible = true; glow.style.opacity = '1';
   });
 
   render();
 })();
 </script>
+
+<!-- constellation: transform-based animation, proportional radius, lane precompute, reduced motion -->
 <script>
 (function () {
-  const section  = document.querySelector('.constellation-section');
-  const canvas   = document.getElementById('ccanvas');
-  const cnode    = document.getElementById('cnode');
-  const bubWrap  = document.getElementById('bubbles');
-  const pilWrap  = document.getElementById('pills');
-  const ctx      = canvas.getContext('2d');
+  var prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
-  const fns = [
+  var section = document.querySelector('.constellation-section');
+  var canvas  = document.getElementById('ccanvas');
+  var cnode   = document.getElementById('cnode');
+  var bubWrap = document.getElementById('bubbles');
+  var pilWrap = document.getElementById('pills');
+  var ctx     = canvas.getContext('2d');
+
+  var fns = [
     { label: 'Positioning',       angle: 130 },
     { label: 'Launch GTM',        angle: 154 },
     { label: 'Messaging',         angle: 178 },
@@ -373,7 +511,7 @@ footer {
     { label: 'Storytelling',      angle: 250, labelOffset: -36 },
   ];
 
-  const icons = {
+  var icons = {
     0: '<circle cx="12" cy="12" r="10"/><circle cx="12" cy="12" r="6"/><circle cx="12" cy="12" r="2"/>',
     1: '<polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>',
     2: '<path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>',
@@ -382,19 +520,19 @@ footer {
     5: '<path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z"/><path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z"/>',
   };
 
-  const hardSkills = [
+  var hardSkills = [
     'Positioning frameworks', 'GTM strategy', 'Sales enablement',
     'Narrative architecture', 'Competitive intel', 'ICP research',
     'A/B messaging tests', 'Launch playbooks', 'Pricing strategy',
     'Win/loss analysis', 'Analyst relations', 'Category creation',
   ];
-  const softSkills = [
+  var softSkills = [
     'Curiosity', 'Empathy', 'Clarity', 'Boldness', 'Rigor',
     'Collaboration', 'Intuition', 'Adaptability', 'Storytelling',
     'Creativity', 'Precision', 'Energy', 'Grit', 'Openness',
   ];
 
-  let W, H, cx, cy, pills = [], lastTs = null;
+  var W, H, cx, cy, pills = [], lastTs = null;
 
   function resize() {
     W = section.offsetWidth;
@@ -412,21 +550,25 @@ footer {
 
   function renderBubbles() {
     bubWrap.innerHTML = '';
-    const r = 220;
-    fns.forEach((fn, i) => {
-      const rad = fn.angle * Math.PI / 180;
-      const bx  = cx + r * Math.cos(rad);
-      const by  = cy + r * Math.sin(rad);
+    /* radius scales proportionally so left-arc bubbles stay on screen */
+    var r = Math.min(220, cx - 40);
+    fns.forEach(function (fn, i) {
+      var rad = fn.angle * Math.PI / 180;
+      var bx  = cx + r * Math.cos(rad);
+      var by  = cy + r * Math.sin(rad);
 
-      const bub = document.createElement('div');
-      bub.className  = 'pmm-bubble';
+      /* button for keyboard accessibility */
+      var bub = document.createElement('button');
+      bub.type      = 'button';
+      bub.className = 'pmm-bubble';
+      bub.setAttribute('aria-label', fn.label);
       bub.style.left = bx + 'px';
       bub.style.top  = by + 'px';
-      bub.innerHTML  = `<svg class="bubble-svg" viewBox="0 0 24 24">${icons[i]}</svg>`;
+      bub.innerHTML  = '<svg class="bubble-svg" viewBox="0 0 24 24" aria-hidden="true">' + icons[i] + '</svg>';
       bubWrap.appendChild(bub);
 
-      const bubR = 39;
-      const lbl  = document.createElement('div');
+      var bubR = 39;
+      var lbl  = document.createElement('div');
       lbl.className       = 'bubble-label';
       lbl.style.top       = (by + (fn.labelOffset || 0)) + 'px';
       lbl.style.transform = 'translate(0, -50%)';
@@ -434,26 +576,26 @@ footer {
       lbl.style.left      = (bx - bubR - 12) + 'px';
       lbl.dataset.bx      = bx;
       lbl.dataset.bubR    = bubR;
+      lbl.setAttribute('aria-hidden', 'true');
       bubWrap.appendChild(lbl);
     });
 
-    requestAnimationFrame(() => {
-      bubWrap.querySelectorAll('.bubble-label').forEach(lbl => {
-        const bx   = parseFloat(lbl.dataset.bx);
-        const bubR = parseFloat(lbl.dataset.bubR);
-        const w    = lbl.offsetWidth;
-        lbl.style.left = (bx - bubR - 12 - w) + 'px';
+    requestAnimationFrame(function () {
+      bubWrap.querySelectorAll('.bubble-label').forEach(function (lbl) {
+        var bx   = parseFloat(lbl.dataset.bx);
+        var bubR = parseFloat(lbl.dataset.bubR);
+        lbl.style.left = (bx - bubR - 12 - lbl.offsetWidth) + 'px';
       });
     });
   }
 
   function drawLines() {
     ctx.clearRect(0, 0, W, H);
-    ctx.strokeStyle = 'rgba(107,30,46,0.12)';
+    ctx.strokeStyle = 'oklch(31% 0.180 16 / 0.12)';
     ctx.lineWidth   = 0.8;
-    const r = 220;
-    fns.forEach(fn => {
-      const rad = fn.angle * Math.PI / 180;
+    var r = Math.min(220, cx - 40);
+    fns.forEach(function (fn) {
+      var rad = fn.angle * Math.PI / 180;
       ctx.beginPath();
       ctx.moveTo(cx, cy);
       ctx.lineTo(cx + r * Math.cos(rad), cy + r * Math.sin(rad));
@@ -464,24 +606,24 @@ footer {
   function resetPills() {
     pilWrap.innerHTML = '';
     pills = [];
-    const all = [
-      ...hardSkills.map(s => ({ text: s, cls: 'pill-maroon' })),
-      ...softSkills.map(s => ({ text: s, cls: 'pill-warm'   })),
-    ];
-    all.forEach(sk => {
-      const el = document.createElement('div');
-      el.className      = `skill-pill ${sk.cls}`;
-      el.textContent    = sk.text;
-      el.style.opacity  = '0';
-      el.style.position = 'absolute';
+    var all = hardSkills.map(function (s) { return { text: s, cls: 'pill-maroon' }; })
+      .concat(softSkills.map(function (s) { return { text: s, cls: 'pill-warm' }; }));
+
+    all.forEach(function (sk) {
+      var el = document.createElement('div');
+      el.className     = 'skill-pill ' + sk.cls;
+      el.textContent   = sk.text;
+      el.style.opacity = '0';
+      el.style.left    = cx + 'px'; /* anchor — only set once */
       pilWrap.appendChild(el);
-      pills.push({ el, w: 0, h: 0, x: 0, y: 0 });
+      pills.push({ el: el, w: 0, h: 0, dx: 0, y: 0, lane: -1 });
     });
-    requestAnimationFrame(() => {
-      pills.forEach(p => {
-        const r = p.el.getBoundingClientRect();
-        p.w = r.width;
-        p.h = r.height;
+
+    requestAnimationFrame(function () {
+      pills.forEach(function (p) {
+        var rect = p.el.getBoundingClientRect();
+        p.w = rect.width;
+        p.h = rect.height;
       });
       layoutLanes();
     });
@@ -489,62 +631,77 @@ footer {
 
   function layoutLanes() {
     if (!pills.length || !pills[0].w) return;
-    const GAP      = 180;
-    const laneH    = pills[0].h + 22;
-    const zoneTop  = cy - 207;
-    const zoneBot  = cy + 207;
-    const zoneH    = zoneBot - zoneTop;
-    const numLanes = Math.min(Math.floor(zoneH / laneH), 8);
-    const zoneW    = W - cx;
-    const shuffled = [...pills].sort(() => Math.random() - 0.5);
-    const lanes    = Array.from({ length: numLanes }, () => []);
-    shuffled.forEach((p, i) => lanes[i % numLanes].push(p));
-    lanes.forEach((lane, li) => {
-      const y           = zoneTop + (li + 0.5) * (zoneH / numLanes) - pills[0].h / 2;
-      const beltLen     = lane.reduce((sum, p) => sum + p.w + GAP, 0);
-      const startOffset = Math.random() * beltLen;
-      lane.forEach((p, pi) => {
-        const pillOffset = lane.slice(0, pi).reduce((s, q) => s + q.w + GAP, 0);
-        const beltPos    = (startOffset + pillOffset) % beltLen;
-        p.x = cx + (beltPos / beltLen) * zoneW;
-        p.y = y;
-        p.el.style.top     = p.y + 'px';
-        p.el.style.left    = p.x + 'px';
-        p.el.style.opacity = '0';
+    var GAP      = 180;
+    var laneH    = pills[0].h + 22;
+    var zoneTop  = cy - 207;
+    var zoneBot  = cy + 207;
+    var zoneH    = zoneBot - zoneTop;
+    var numLanes = Math.min(Math.floor(zoneH / laneH), 8);
+    var zoneW    = W - cx;
+    var shuffled = pills.slice().sort(function () { return Math.random() - 0.5; });
+    var lanes    = [];
+    for (var i = 0; i < numLanes; i++) lanes.push([]);
+    shuffled.forEach(function (p, i) { lanes[i % numLanes].push(p); });
+
+    lanes.forEach(function (lane, li) {
+      var y        = zoneTop + (li + 0.5) * (zoneH / numLanes) - pills[0].h / 2;
+      var beltLen  = lane.reduce(function (sum, p) { return sum + p.w + GAP; }, 0);
+      var startOff = Math.random() * beltLen;
+      lane.forEach(function (p, pi) {
+        var pillOff = lane.slice(0, pi).reduce(function (s, q) { return s + q.w + GAP; }, 0);
+        var beltPos = (startOff + pillOff) % beltLen;
+        p.dx   = (beltPos / beltLen) * zoneW;
+        p.y    = y;
+        p.lane = li;
+        p.el.style.top       = p.y + 'px';
+        p.el.style.left      = cx + 'px';
+        p.el.style.transform = 'translateX(' + p.dx + 'px)';
+        p.el.style.opacity   = '0';
       });
     });
+
+    /* if reduced motion, show pills static at their initial positions */
+    if (prefersReducedMotion) {
+      pills.forEach(function (p) { p.el.style.opacity = '1'; });
+    }
   }
 
-  function animate(ts = 0) {
-    const dt    = lastTs ? Math.min(ts - lastTs, 50) : 16;
+  function animate(ts) {
+    ts = ts || 0;
+    var dt    = lastTs ? Math.min(ts - lastTs, 50) : 16;
     lastTs = ts;
-    const GAP   = 180;
-    const SPEED = 38;
-    pills.forEach(p => {
+    var GAP   = 180;
+    var SPEED = 38;
+
+    pills.forEach(function (p) {
       if (!p.w) return;
-      p.x -= SPEED * (dt / 1000);
-      p.el.style.left = p.x + 'px';
-      if (p.x + p.w < cx - 30) {
-        let maxX = W - 50;
-        pills.forEach(q => {
-          if (q !== p && Math.abs(q.y - p.y) < 5)
-            maxX = Math.max(maxX, q.x + q.w + GAP);
+      p.dx -= SPEED * (dt / 1000);
+
+      /* wrap: find furthest pill in same lane (lane precomputed, avoids O(n²) scan over all lanes) */
+      if (p.dx + p.w < -30) {
+        var maxDx = W - cx - 50;
+        pills.forEach(function (q) {
+          if (q !== p && q.lane === p.lane)
+            maxDx = Math.max(maxDx, q.dx + q.w + GAP);
         });
-        p.x = maxX;
-        p.el.style.left = p.x + 'px';
+        p.dx = maxDx;
       }
-      const fadeOutStart = cx + 100;
-      let opacity = 1;
-      if (p.x < fadeOutStart) opacity = Math.max((p.x - cx) / 100, 0);
-      if (p.x > W) opacity = 0;
-      p.el.style.opacity = Math.max(0, Math.min(1, opacity)).toFixed(3);
+
+      /* opacity fade near left edge */
+      var opacity = 1;
+      if (p.dx < 100)       opacity = Math.max(p.dx / 100, 0);
+      if (p.dx > W - cx)    opacity = 0;
+
+      p.el.style.transform = 'translateX(' + p.dx.toFixed(2) + 'px)';
+      p.el.style.opacity   = Math.max(0, Math.min(1, opacity)).toFixed(3);
     });
+
     requestAnimationFrame(animate);
   }
 
   window.addEventListener('resize', resize);
   resize();
-  animate();
+  if (!prefersReducedMotion) animate();
 })();
 </script>
 </body>
