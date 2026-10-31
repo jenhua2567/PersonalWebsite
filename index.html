@@ -86,6 +86,21 @@ nav {
   outline-offset: 4px;
   border-radius: 2px;
 }
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 32px;
+}
+.nav-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  text-decoration: none;
+  transition: color 0.2s;
+}
+.nav-link:hover { color: var(--maroon-mid); }
 .nav-status {
   font-family: 'DM Mono', monospace;
   font-size: 10px;
@@ -334,6 +349,97 @@ footer {
   color: var(--maroon); background: var(--maroon-pale); border: 0.5px solid var(--maroon-soft);
 }
 
+/* WRITING SECTION */
+.writing-section {
+  padding: 8vh 10vw 10vh;
+  border-top: 0.5px solid var(--border);
+}
+.writing-intro {
+  font-size: clamp(1rem, 1.6vw, 1.15rem);
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.75;
+  margin-bottom: 52px;
+  max-width: 640px;
+}
+.writing-featured {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+  margin-bottom: 48px;
+}
+.writing-card {
+  background: var(--white);
+  border: 0.5px solid var(--border-mid);
+  border-radius: 6px;
+  padding: 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  transition: box-shadow 0.2s, transform 0.2s;
+}
+.writing-card:hover {
+  box-shadow: 0 6px 28px oklch(31% 0.180 16 / 0.10);
+  transform: translateY(-2px);
+}
+.writing-card-meta {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+}
+.writing-card h3 {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: clamp(1.15rem, 2vw, 1.45rem);
+  font-weight: 400;
+  line-height: 1.3;
+  color: var(--ink);
+}
+.writing-card-framing {
+  font-size: 0.9rem;
+  font-weight: 300;
+  color: var(--ink-muted);
+  line-height: 1.7;
+  flex: 1;
+}
+.writing-card-link {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--maroon);
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s, gap 0.2s;
+  align-self: flex-start;
+  padding: 2px 0;
+  border-bottom: 0.5px solid var(--maroon-soft);
+}
+.writing-card-link:hover {
+  color: var(--maroon-deep);
+  gap: 10px;
+}
+.writing-series-label {
+  font-family: 'DM Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--ink-faint);
+  margin-bottom: 16px;
+  padding-bottom: 12px;
+  border-bottom: 0.5px solid var(--border);
+}
+.writing-series {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.writing-card--compact { padding: 24px 28px; }
+.writing-card--compact h3 { font-size: clamp(1rem, 1.6vw, 1.2rem); }
+
 /* TABLET BREAKPOINT */
 @media (max-width: 768px) {
   nav { padding: 22px 32px; }
@@ -342,11 +448,13 @@ footer {
   .c-label { left: 32px; }
   footer { padding: 22px 32px; }
   .skills-noscript { padding: 32px; }
+  .writing-section { padding: 6vh 7vw 8vh; }
 }
 
 /* MOBILE BREAKPOINT */
 @media (max-width: 600px) {
   nav { padding: 20px 24px; }
+  .nav-links { display: none; }
   .nav-status { display: none; }
   .center { padding: 6vh 6vw 5vh; }
   .headline { font-size: clamp(2.6rem, 12vw, 3.4rem); }
@@ -365,6 +473,9 @@ footer {
   .bubble-svg { width: 18px; height: 18px; }
   .skill-pill { font-size: 11px; padding: 5px 12px; }
   .skills-noscript { padding: 24px; }
+  .writing-section { padding: 6vh 6vw 8vh; }
+  .writing-featured { grid-template-columns: 1fr; }
+  .writing-series { grid-template-columns: 1fr; }
 }
 
 /* REDUCED MOTION */
@@ -388,6 +499,10 @@ footer {
 <div class="deco-letter" aria-hidden="true">JH</div>
 <nav aria-label="Site navigation">
   <a class="nav-logo" href="#">jenny<em>hua</em></a>
+  <div class="nav-links">
+    <a class="nav-link" href="#skills">Skills</a>
+    <a class="nav-link" href="#writing">Writing</a>
+  </div>
   <div class="nav-status" aria-hidden="true">
     <div class="nav-status-dot"></div>
     Site launching soon
@@ -447,6 +562,48 @@ footer {
       <span class="skill-item">Narrative Architecture</span>
     </div>
   </div>
+  <section class="writing-section" id="writing">
+    <div class="eyebrow">writing samples</div>
+    <h2 class="headline" style="font-size: clamp(2.4rem, 5vw, 5rem); margin-bottom: 24px;">Published writing</h2>
+    <p class="writing-intro">Four launch narratives for TrendAI's partner ecosystem, each turning a technical integration into a reason to care.</p>
+
+    <div class="writing-featured">
+      <article class="writing-card">
+        <div class="writing-card-meta">July 30, 2026 · TrendAI</div>
+        <h3>Introducing the TrendAI Vision One™ SDK: Build Integrations That Scale</h3>
+        <p class="writing-card-framing">Launch announcement written for technology partners and developers. It turns a developer tool into an ecosystem growth story and drives applications to the Technology Alliance Partner program.</p>
+        <!-- outcome: add result metric here when available -->
+        <a class="writing-card-link" href="https://www.trendaisecurity.com/en/news/introducing-trendai-vision-one-sdk-build-integrations-that-scale" target="_blank" rel="noopener noreferrer">Read the blog →</a>
+      </article>
+
+      <article class="writing-card">
+        <div class="writing-card-meta">October 14, 2025 · Trend Micro</div>
+        <h3>Trend Micro launches new integration with Zscaler to deliver real-time, Risk-Based Zero Trust Access</h3>
+        <p class="writing-card-framing">Co-launch announcement that explains a technical flow (SCIM sync, risk-based access enforcement) through a concrete SOC scenario, with a partner quote and co-developed collateral.</p>
+        <!-- outcome: add result metric here when available -->
+        <a class="writing-card-link" href="https://www.trendmicro.com/en/research/25/j/real-time-risk-based-zero-trust.html" target="_blank" rel="noopener noreferrer">Read the blog →</a>
+      </article>
+    </div>
+
+    <div class="writing-series-label">Endpoint choice series</div>
+    <div class="writing-series">
+      <article class="writing-card writing-card--compact">
+        <div class="writing-card-meta">August 26, 2025 · Trend Micro</div>
+        <h3>Trend Vision One Integrates Microsoft Defender for Endpoint</h3>
+        <p class="writing-card-framing">Establishes the "no rip-and-replace" message: keep your endpoint vendor and add exposure management.</p>
+        <!-- outcome: add result metric here when available -->
+        <a class="writing-card-link" href="https://www.trendmicro.com/en/research/25/h/vision-one-integrates-microsoft-defender.html" target="_blank" rel="noopener noreferrer">Read the blog →</a>
+      </article>
+
+      <article class="writing-card writing-card--compact">
+        <div class="writing-card-meta">January 26, 2026 · Trend Micro</div>
+        <h3>Embracing Choice in Cybersecurity: TrendAI Vision One™ and SentinelOne Integration</h3>
+        <p class="writing-card-framing">Extends the same message to SentinelOne customers, building on the Defender post as a repeatable ecosystem narrative.</p>
+        <!-- outcome: add result metric here when available -->
+        <a class="writing-card-link" href="https://www.trendmicro.com/en/research/26/a/embracing-choice-in-cybersecurity.html" target="_blank" rel="noopener noreferrer">Read the blog →</a>
+      </article>
+    </div>
+  </section>
 </main>
 <footer>
   <span>&copy; 2026 Jenny Hua</span>
